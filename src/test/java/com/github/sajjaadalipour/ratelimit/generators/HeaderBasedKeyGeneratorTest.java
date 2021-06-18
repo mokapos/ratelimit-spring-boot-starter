@@ -1,6 +1,7 @@
 package com.github.sajjaadalipour.ratelimit.generators;
 
 import com.github.sajjaadalipour.ratelimit.conf.properties.RateLimitProperties.Policy;
+import com.github.sajjaadalipour.ratelimit.exception.HeaderNotPresentedException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;

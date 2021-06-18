@@ -2,6 +2,7 @@ package com.github.sajjaadalipour.ratelimit.generators;
 
 import com.github.sajjaadalipour.ratelimit.RateLimitKeyGenerator;
 import com.github.sajjaadalipour.ratelimit.conf.properties.RateLimitProperties.Policy;
+import com.github.sajjaadalipour.ratelimit.exception.HeaderNotPresentedException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Set;
@@ -56,7 +57,6 @@ public class HeaderBasedKeyGenerator implements RateLimitKeyGenerator {
 
             key.add(header);
         }
-
         return key.toString();
     }
 }
