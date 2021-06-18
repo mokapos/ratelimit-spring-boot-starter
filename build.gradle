@@ -1,0 +1,54 @@
+plugins {
+    id 'java'
+    id 'maven'
+    id 'maven-publish'
+}
+
+group = 'com.github.sajjaadalipour'
+version = '1.1.4-SNAPSHOT'
+
+description = """com.github.sajjaadalipour:ratelimit-spring-boot-starter"""
+
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
+tasks.withType(JavaCompile) {
+    options.encoding = 'UTF-8'
+}
+
+
+repositories {
+    mavenCentral()
+    maven {
+        url 'https://artifactory.mokapos.io/artifactory/gradle-release'
+        credentials {
+            username 'read-user'
+            password 'SecureMePls'
+        }
+    }
+}
+
+dependencies {
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-web', version: '2.2.3.RELEASE'
+    compile group: 'org.springframework.boot', name: 'spring-boot-configuration-processor', version: '2.2.3.RELEASE'
+    compile group: 'commons-io', name: 'commons-io', version: '2.6'
+    compile 'com.google.code.findbugs:jsr305:3.0.2'
+    compile group: 'org.springframework.boot', name: 'spring-boot-starter-data-redis', version: '2.2.4.RELEASE'
+    testCompile group: 'org.springframework.boot', name: 'spring-boot-starter-test', version: '2.2.3.RELEASE'
+    testCompile group: 'org.awaitility', name: 'awaitility', version: '4.0.3'
+    testCompile group: 'pl.pragmatists', name: 'JUnitParams', version: '1.1.1'
+}
+
+publishing {
+    publications {
+        maven(MavenPublication) {
+            groupId = 'com.github.sajjaadalipour'
+            artifactId = 'ratelimit-spring-boot-starter'
+            version = '1.1.4-SNAPSHOT'
+            from components.java
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
+}

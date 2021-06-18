@@ -1,4 +1,4 @@
-package com.github.sajjaadalipour.ratelimit.generators;
+package com.github.sajjaadalipour.ratelimit.exception;
 
 /**
  * should be thrown when the {@link #headerKey} not presented in

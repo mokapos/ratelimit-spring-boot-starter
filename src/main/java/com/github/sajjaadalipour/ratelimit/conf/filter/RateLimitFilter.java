@@ -8,6 +8,7 @@ import com.github.sajjaadalipour.ratelimit.conf.error.TooManyRequestErrorHandler
 import com.github.sajjaadalipour.ratelimit.conf.properties.RateLimitProperties;
 import com.github.sajjaadalipour.ratelimit.conf.properties.RateLimitProperties.Policy;
 import com.github.sajjaadalipour.ratelimit.conf.properties.RateLimitProperties.Policy.Route;
+import com.github.sajjaadalipour.ratelimit.http.CachedBodyHttpServletRequest;
 import org.springframework.boot.web.servlet.filter.OrderedFilter;
 import org.springframework.util.AntPathMatcher;
 import org.springframework.util.PathMatcher;
@@ -89,13 +90,14 @@ public class RateLimitFilter extends OncePerRequestFilter implements OrderedFilt
             HttpServletRequest httpServletRequest,
             @Nonnull HttpServletResponse httpServletResponse,
             @Nonnull FilterChain filterChain) throws ServletException, IOException {
+        CachedBodyHttpServletRequest cachedBodyHttpServletRequest = new CachedBodyHttpServletRequest(httpServletRequest);
         List<Policy> matchedPolicies = getMatchedPolicies(httpServletRequest.getRequestURI(), httpServletRequest.getMethod());
 
         boolean doFilterChain = true;
 
         for (Policy policy : matchedPolicies) {
             final RateLimitKeyGenerator rateLimitKeyGenerator = keyGenerators.get(policy.getKeyGenerator());
-            final String generatedKey = rateLimitKeyGenerator.generateKey(httpServletRequest, policy);
+            final String generatedKey = rateLimitKeyGenerator.generateKey(cachedBodyHttpServletRequest, policy);
             final RatePolicy ratePolicy = new RatePolicy(
                     generatedKey,
                     policy.getDuration(),
@@ -112,7 +114,7 @@ public class RateLimitFilter extends OncePerRequestFilter implements OrderedFilt
         }
 
         if (doFilterChain) {
-            filterChain.doFilter(httpServletRequest, httpServletResponse);
+            filterChain.doFilter(cachedBodyHttpServletRequest, httpServletResponse);
         }
     }
 

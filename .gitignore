@@ -1,3 +1,31 @@
 target/
+.env
+.gradle
+/build
+/bin/
+/logs/
+*.log
+*.zip
+!gradle/wrapper/gradle-wrapper.jar
+
+### STS ###
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
 .idea
+*.iws
 *.iml
+*.ipr
+out
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/
